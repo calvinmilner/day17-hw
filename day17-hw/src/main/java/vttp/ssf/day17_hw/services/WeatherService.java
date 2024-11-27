@@ -52,7 +52,9 @@ public class WeatherService {
             System.out.printf("%s\n\n", payload);
             JsonReader reader = Json.createReader(new StringReader(payload));
             JsonObject result = reader.readObject();
-            // JsonArray weatherArr = result.getJsonArray("weather");
+            JsonArray weatherArr = result.getJsonArray("weather");
+            JsonObject weatherObj = weatherArr.getJsonObject(0);
+            
             // Map<String, String> content = new HashMap<>();
             // Information info = new Information();
             // for(int i = 0; i < weatherArr.size(); i++) {
