@@ -1,23 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Weather Information</title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
+
 <body>
-    <div th:text="${result}"></div>
-    <!-- <div th:each= "c : ${content}"> <span th:text="${c}"></span></div> -->
-    <!-- <table>
-        <tr data-th-object="${info}">
-            <td th:text="*{id}"></td>
-            <td th:text="*{main}"text></td>
-            <td th:text="*{description}"text></td>
-            <td th:text="*{icon}"text></td>
-            <td><img src="*{icon}" alt="" srcset=""></td>
+    <div><h1>Weather Location: <code data-th-text="${city}"></code></h1></div>
+    <table data-th-each="i : ${info.listInfo}">
+        <tr>
+            <td><div class="pictures">Icon: <img data-th-src="${i.icon}"></div></td>
         </tr>
-    </table> -->
+        <tr>
+            <td>ID: <span th:text="${i.id}"></span></td>
+        </tr>
+        <tr>
+            <td>Main: <span th:text="${i.main}"></span></td>
+        </tr>
+        <tr>
+            <td>Description: <span th:text="${i.description}"></span></td>
+        </tr>
+        <tr>
+            <td>Cached? <span th:text="${cache}"></span></td>
+        </tr>
+    </table>
     <br>
     <a href="/">Back</a>
 </body>
+
 </html>

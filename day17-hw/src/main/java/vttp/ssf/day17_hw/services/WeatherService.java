@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
@@ -21,50 +22,53 @@ import jakarta.json.JsonReader;
 // import vttp.ssf.day17_hw.models.SearchParams;
 import jakarta.json.JsonValue;
 import vttp.ssf.day17_hw.models.Information;
+import vttp.ssf.day17_hw.repositories.WeatherRepository;
 
 @Service
 public class WeatherService {
 
-    public static final String GET_URL = "https://api.openweathermap.org/data/2.5/weather";
+        @Autowired
+        private WeatherRepository weatherRepo;
 
-    public String search(String apiKey, String city) {
-    // public Information search(String apiKey, String city) {
+        public static final String GET_URL = "https://api.openweathermap.org/data/2.5/weather";
 
-        // https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
+        // public String search(String apiKey, String city) {
+        public Information search(String apiKey, String city) {
 
-        String url = UriComponentsBuilder
-                .fromUriString(GET_URL)
-                .queryParam("q", city)
-                .queryParam("appid", apiKey)
-                .toUriString();
+                // https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
 
-        System.out.printf("URL generated: %s\n\n", url);
+                String url = UriComponentsBuilder
+                                .fromUriString(GET_URL)
+                                .queryParam("q", city)
+                                .queryParam("appid", apiKey)
+                                .toUriString();
 
-        RequestEntity<Void> req = RequestEntity
-                .get(url)
-                .accept(MediaType.APPLICATION_JSON)
-                .build();
+                System.out.printf("URL generated: %s\n\n", url);
 
-        RestTemplate template = new RestTemplate();
-            ResponseEntity<String> resp = template.exchange(req, String.class);
+                RequestEntity<Void> req = RequestEntity
+                                .get(url)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .build();
+                RestTemplate template = new RestTemplate();
+                ResponseEntity<String> resp = template.exchange(req, String.class);
 
-            String payload = resp.getBody();
-            System.out.printf("%s\n\n", payload);
-            JsonReader reader = Json.createReader(new StringReader(payload));
-            JsonObject result = reader.readObject();
-            JsonArray weatherArr = result.getJsonArray("weather");
-            JsonObject weatherObj = weatherArr.getJsonObject(0);
-            
-            // Map<String, String> content = new HashMap<>();
-            // Information info = new Information();
-            // for(int i = 0; i < weatherArr.size(); i++) {
-            //     JsonObject jsonObj = weatherArr.getJsonObject(i);
-            //     info.setId(jsonObj.getString("id"));
-            //     info.setMain(jsonObj.getString("main"));
-            //     info.setDescription(jsonObj.getString("description"));
-            //     info.setIcon(jsonObj.getString("icon"));
-            // }
-            // return info;
-            return payload;
-    }
+                String payload = resp.getBody();
+                System.out.printf("%s\n\n", payload);
+                Information cityInfo = Information.toInformation(payload);
+
+                return cityInfo;
+        }
+
+        public void save(String city, Information info) {
+                weatherRepo.save(city, info);
+        }
+
+        public Information getInformation(String city) {
+                return weatherRepo.get(city);
+        }
+        // public Optional<Information> get(String city) {
+        // if(weatherRepo.get(city).isPresent())
+        // weatherRepo.get(city);
+        // return;
+        // }
 }
