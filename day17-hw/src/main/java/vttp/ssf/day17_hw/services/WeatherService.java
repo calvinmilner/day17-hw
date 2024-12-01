@@ -1,13 +1,6 @@
 package vttp.ssf.day17_hw.services;
 
-import java.io.StringReader;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import jakarta.json.Json;
-import jakarta.json.JsonArray;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonReader;
-// import vttp.ssf.day17_hw.models.SearchParams;
-import jakarta.json.JsonValue;
 import vttp.ssf.day17_hw.models.Information;
 import vttp.ssf.day17_hw.repositories.WeatherRepository;
 
@@ -66,9 +53,4 @@ public class WeatherService {
         public Information getInformation(String city) {
                 return weatherRepo.get(city);
         }
-        // public Optional<Information> get(String city) {
-        // if(weatherRepo.get(city).isPresent())
-        // weatherRepo.get(city);
-        // return;
-        // }
 }

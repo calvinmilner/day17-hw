@@ -1,20 +1,13 @@
 package vttp.ssf.day17_hw.repositories;
 
 import java.io.StringReader;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-
-import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
@@ -39,13 +32,6 @@ public class WeatherRepository {
     }
 
     // get city "{ .... }"
-    // public List<Information> getWeather(String city) {
-    //     Optional<String> json = template.;
-
-    //     Information info = new Information();
-    //     info.setId(info.get);
-    // }
-
     public Information get(String city) {
     ValueOperations<String, Object> valueOps = template.opsForValue();
     Object value = valueOps.get(city);
